@@ -6,13 +6,12 @@ $n-groups: 7;
 
 @mixin sparkles($k) {
   $shadow-list: ();
-  $n-groups: 7;
 
   $group-base-angle: calc(360deg / $n-groups);
   $group-distr-r: (1 + $k*.25)*$circle-r;
   $n-sparkles: 2;
   $sparkle-base-angle: calc(360deg / $n-sparkles);
-  $sparkle-off-angle: 60deg; // offset angle from radius
+  $sparkle-off-angle: 60deg;
   $spread-r: -$k*$sparkle-r;
 
   @for $i from 0 to $n-groups {
