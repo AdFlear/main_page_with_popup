@@ -1,0 +1,230 @@
+$circle-d: 4.5rem;
+$circle-r: .5*$circle-d;
+$sparkle-d: .375rem;
+$sparkle-r: .5*$sparkle-d;
+$n-groups: 7;
+
+@mixin sparkles($k) {
+  $shadow-list: ();
+  $n-groups: 7;
+
+  $group-base-angle: calc(360deg / $n-groups);
+  $group-distr-r: (1 + $k*.25)*$circle-r;
+  $n-sparkles: 2;
+  $sparkle-base-angle: calc(360deg / $n-sparkles);
+  $sparkle-off-angle: 60deg; // offset angle from radius
+  $spread-r: -$k*$sparkle-r;
+
+  @for $i from 0 to $n-groups {
+    $group-curr-angle: $i*$group-base-angle - 90deg;
+    $xg: $group-distr-r*cos($group-curr-angle);
+    $yg: $group-distr-r*sin($group-curr-angle);
+
+    @for $j from 0 to $n-sparkles {
+      $sparkle-curr-angle: $group-curr-angle +
+				$sparkle-off-angle + $j*$sparkle-base-angle;
+      $xs: $xg + $sparkle-d*cos($sparkle-curr-angle);
+      $ys: $yg + $sparkle-d*sin($sparkle-curr-angle);
+
+      $shadow-list: $shadow-list, $xs $ys 0 $spread-r
+      hsl(($i + $j)*$group-base-angle, 100%, 75%);
+    }
+  }
+
+  box-shadow: $shadow-list;
+}
+
+
+.button {
+  border: none;
+
+  svg {
+    touch-action: none;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &--pink {
+    background: linear-gradient(180deg, #E30077 -63.54%, #9D0052 173.96%);
+    gap: 4px;
+    border-radius: 8px;
+    font-family: 'Inter Variable', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 6px 5px;
+
+    @media (min-width: 768px) {
+      padding: 6px 28px;
+    }
+  }
+
+
+  &__floating {
+    position: fixed;
+    right: 5px;
+    bottom: 50px;
+    display: flex;
+    align-items: center;
+    width: 62px;
+    height: 62px;
+    background: black;
+    border-radius: 12px;
+    justify-content: center;
+    animation: circles 1s cubic-bezier(.17, .89, .32, 1.49), fabFadeIn 0.5s ease-out forwards 0.3s;
+    transition: box-shadow 0.3s;
+    opacity: 0;
+    transform: scale(0.5) translateY(20px);
+
+    &:before, &:after {
+      animation: inherit;
+      animation-timing-function: ease-out;
+    }
+
+    &:before {
+      will-change: transform, border-width, border-color;
+      animation-name: circle;
+    }
+
+    &:after {
+      will-change: opacity, box-shadow;
+      animation-name: sparkles;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    @media (min-width: 768px) {
+      right: 20px;
+    }
+
+    &.active {
+      background: linear-gradient(180deg, #E30077 -63.54%, #9D0052 173.96%);
+
+      &:before,
+      &:after {
+        position: absolute;
+        z-index: -1;
+        top: 50%;
+        left: 50%;
+        border-radius: 50%;
+        content: '';
+      }
+
+      &:before {
+        box-sizing: border-box;
+        margin: -$circle-r;
+        border: solid $circle-r #e2264d;
+        width: $circle-d;
+        height: $circle-d;
+        transform: scale(0);
+      }
+
+      &:after {
+        margin: -$sparkle-r;
+        width: $sparkle-d; height: $sparkle-d;
+        @include sparkles(1);
+      }
+    }
+  }
+
+  &--black {
+    background-color: black;
+    color: #fff;
+    font-weight: 400;
+    letter-spacing: -0.016em;
+    border-radius: 10px;
+    font-size: 14px;
+    width: 60px;
+    padding: 5px 0;
+
+    @media (min-width: 768px) {
+      padding: 10px 0;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 20px;
+      width: 86px;
+      padding: 12px 5px;
+    }
+
+  }
+
+  &--close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 100%;
+    margin-left: 8px;
+    position: relative;
+    border: none;
+    background: transparent;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &--blue {
+    border-radius: 50px;
+    background: #0071e3;
+    color: #fff;
+    border: 1px solid transparent;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
+    padding: 11px 21px;
+    --sk-button-margin-horizontal: 18px;
+    --sk-button-margin-vertical: 18px;
+
+  }
+
+}
+
+
+@mixin circle($ext) {
+  transform: scale(1);
+  border-color: #cc8ef5;
+  border-width: $ext;
+}
+
+
+
+
+@keyframes circles {
+  0%, 17.5% { font-size: 0; }
+}
+
+@keyframes circle {
+  15% { @include circle($circle-r); }
+  30%, 100% { @include circle(0); }
+}
+
+@keyframes sparkles {
+  0%, 20% { opacity: 0; }
+  25% {
+    opacity: 1;
+    @include sparkles(0);
+  }
+}
+
+
+@keyframes fabFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}

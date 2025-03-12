@@ -1,0 +1,58 @@
+.notes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  background-color: #f0f0f2;
+  padding: 29px 0;
+
+  &__block {
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+    align-items: center;
+  }
+
+  &--dropdown {
+    width: 100%;
+    display: inline-block;
+    position: relative;
+    flex: 1;
+
+    @media (min-width: 1440px) {
+      width: 552px;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+
+  }
+
+  &__text {
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    font-family: "SF Pro Text", "Myriad Set Pro", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "SF Pro Icons", "Apple Legacy Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    display: inline-block;
+    flex: 1;
+    word-break: initial;
+
+    @media (min-width: 1440px) {
+      font-size: 1.115rem;
+    }
+
+    @media (max-width: 1024px) {
+      br {
+        display: none;
+      }
+    }
+  }
+
+
+
+
+}

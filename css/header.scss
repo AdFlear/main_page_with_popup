@@ -1,0 +1,39 @@
+.header {
+  height: 68px;
+
+  .menu {
+    position: relative;
+
+    &__item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      a {
+        color: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /*mix-blend-mode: difference;*/
+        transition: color 0.3s ease;
+        overflow: hidden;
+        padding: 0.875rem 1rem;
+        border-radius: 999px;
+        position: relative;
+      }
+    }
+  }
+
+  .menu__list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+
+
+    @media (max-width: 1024px) {
+      justify-content: flex-start;
+      overflow-x: scroll;
+    }
+  }
+}
